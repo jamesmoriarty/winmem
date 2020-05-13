@@ -1,0 +1,22 @@
+name: CI
+
+on: 
+  - push
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        ruby: [ '2.7' ]
+    
+    name: Build ${{ matrix.ruby }} and test with rake
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - run: bundle install
+      - run: bundle exec rake
